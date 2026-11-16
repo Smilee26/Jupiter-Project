@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study Habits, Sleep and Marks</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <h1>Study Habits, Sleep and Marks</h1>
+    <p class="lead">A 200-student implementation study on simulated data.</p>
+    <nav aria-label="Sections">
+      <a href="#problem">Problem</a>
+      <a href="#method">Method</a>
+      <a href="#results">Results</a>
+      <a href="#graphs">Graphs</a>
+      <a href="#data">Data</a>
+      <a href="#limits">Limits</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <p class="notice"><strong>The data is simulated on purpose.</strong> Real student data needs consent and could identify people, so every result here follows from rules written in advance. Nothing is evidence about real students.</p>
+
+  <section id="problem">
+    <h2>Problem and objectives</h2>
+    <p>Teachers see marks, attendance and study or sleep habits in separate places, so they cannot say which habits go with better marks. This project joins them in one pipeline.</p>
+    <ul>
+      <li>Put study, sleep, attendance and marks in one table.</li>
+      <li>Measure how they relate without over-claiming.</li>
+      <li>Build one easy Habit Score.</li>
+      <li>Group students into Low, Medium and High marks.</li>
+      <li>Show everything in simple graphs.</li>
+    </ul>
+  </section>
+
+  <section id="method">
+    <h2>Method</h2>
+    <div class="stages">
+      <div class="stage"><h3>Specify</h3><p>Write the rules for how habits affect marks.</p></div>
+      <div class="stage"><h3>Generate</h3><p>Create 200 students with seed 2026 and save a CSV.</p></div>
+      <div class="stage"><h3>Index</h3><p>Combine 3 habits into a 0 to 100 Habit Score.</p></div>
+      <div class="stage"><h3>Analyse</h3><p>Correlation, regression, groups, sleep bands.</p></div>
+      <div class="stage"><h3>Visualise</h3><p>Three graphs of the results.</p></div>
+    </div>
+
+    <h3>The marks rule</h3>
+    <p class="formula">marks = 30 + 4 × study + 0.25 × attendance + 1.5 × sleep − 0.8 × screen + noise</p>
+    <p>A hidden trait, discipline, nudges every habit. It is never saved in the table, which is why habits and marks look linked.</p>
+
+    <h3>Habit Score weights (sum = 1.0)</h3>
+    <p>Study 0.4 (6 hours a day is full marks), attendance 0.3, sleep 0.3 (4 hours is 0, 8 hours is 100). The weights are fixed in advance so the score is transparent.</p>
+  </section>
+
+  <section id="results">
+    <h2>Results</h2>
+    <div class="stats">
+      <div class="stat"><span class="num">200</span><span class="lab">students</span></div>
+      <div class="stat"><span class="num">66.6</span><span class="lab">mean marks</span></div>
+      <div class="stat"><span class="num">6.54 h</span><span class="lab">mean sleep</span></div>
+      <div class="stat"><span class="num">28.5%</span><span class="lab">sleep under 6 h</span></div>
+    </div>
+
+    <div class="two">
+      <div>
+        <h3>Correlation with marks</h3>
+        <div class="tbl"><table><thead><tr><th>Variable</th><th>r</th></tr></thead><tbody><tr><td>Study hours</td><td>+0.758</td></tr><tr><td>Sleep hours</td><td>+0.332</td></tr><tr><td>Attendance %</td><td>+0.551</td></tr><tr><td>Screen hours</td><td>-0.326</td></tr><tr><td>Habit Score</td><td>+0.781</td></tr></tbody></table></div>
+        <p class="small">Habit Score is built from study, sleep and attendance, so its link with marks is partly by construction.</p>
+      </div>
+      <div>
+        <h3>Regression: marks on four habits</h3>
+        <div class="tbl"><table><thead><tr><th>Term</th><th>Fitted</th><th>Rule</th></tr></thead><tbody><tr><td>Intercept</td><td>+30.189</td><td>30</td></tr><tr><td>Study</td><td>+4.275</td><td>+4</td></tr><tr><td>Sleep</td><td>+1.696</td><td>+1.5</td></tr><tr><td>Attendance</td><td>+0.203</td><td>+0.25</td></tr><tr><td>Screen</td><td>-0.678</td><td>-0.8</td></tr></tbody></table></div>
+        <p class="small">Each number is the change in marks per unit of that habit, others held fixed. The fit lands close to the rule.</p>
+      </div>
+    </div>
+
+    <h3>Marks groups</h3>
+    <div class="tbl"><table><thead><tr><th>Group</th><th>Students</th><th>Study h/day</th><th>Sleep h</th><th>Attendance %</th><th>Habit Score</th></tr></thead><tbody><tr><td>Low (&lt;50)</td><td>9</td><td>1.01</td><td>6.00</td><td>61.83</td><td>40.14</td></tr><tr><td>Medium (50-70)</td><td>110</td><td>2.57</td><td>6.33</td><td>73.17</td><td>56.38</td></tr><tr><td>High (70+)</td><td>81</td><td>4.02</td><td>6.89</td><td>80.84</td><td>72.28</td></tr></tbody></table></div>
+
+    <h3>Mean marks by sleep band</h3>
+    <div class="tbl narrow"><table><thead><tr><th>Sleep per night</th><th>Mean marks</th></tr></thead><tbody><tr><td>Under 6 h</td><td>63.6</td></tr><tr><td>6-7 h</td><td>65.9</td></tr><tr><td>Over 7 h</td><td>70.3</td></tr></tbody></table></div>
+
+    <h3>What it shows</h3>
+    <ul>
+      <li>Study shows the biggest difference: the High group studies about 4.02 hours a day against 1.01 in the Low group.</li>
+      <li>Marks rise with sleep, but sleep adds only 1.5 marks per hour in the rule, so its effect is smaller than study.</li>
+      <li>The Low group has only 9 students, so its averages are not very reliable.</li>
+    </ul>
+  </section>
+
+  <section id="graphs">
+    <h2>Graphs</h2>
+    <div class="charts">
+      <figure><div class="chart"><svg viewBox="0 0 520 330" role="img" aria-label="Histogram of marks"><line class="grid" x1="46" x2="506" y1="286.0" y2="286.0"/><text class="tick" x="40" y="290.0" text-anchor="end">0</text><line class="grid" x1="46" x2="506" y1="265.2" y2="265.2"/><text class="tick" x="40" y="269.2" text-anchor="end">2</text><line class="grid" x1="46" x2="506" y1="244.5" y2="244.5"/><text class="tick" x="40" y="248.5" text-anchor="end">4</text><line class="grid" x1="46" x2="506" y1="223.7" y2="223.7"/><text class="tick" x="40" y="227.7" text-anchor="end">6</text><line class="grid" x1="46" x2="506" y1="202.9" y2="202.9"/><text class="tick" x="40" y="206.9" text-anchor="end">8</text><line class="grid" x1="46" x2="506" y1="182.2" y2="182.2"/><text class="tick" x="40" y="186.2" text-anchor="end">10</text><line class="grid" x1="46" x2="506" y1="161.4" y2="161.4"/><text class="tick" x="40" y="165.4" text-anchor="end">12</text><line class="grid" x1="46" x2="506" y1="140.6" y2="140.6"/><text class="tick" x="40" y="144.6" text-anchor="end">14</text><line class="grid" x1="46" x2="506" y1="119.8" y2="119.8"/><text class="tick" x="40" y="123.8" text-anchor="end">16</text><line class="grid" x1="46" x2="506" y1="99.1" y2="99.1"/><text class="tick" x="40" y="103.1" text-anchor="end">18</text><line class="grid" x1="46" x2="506" y1="78.3" y2="78.3"/><text class="tick" x="40" y="82.3" text-anchor="end">20</text><line class="grid" x1="46" x2="506" y1="57.5" y2="57.5"/><text class="tick" x="40" y="61.5" text-anchor="end">22</text><line class="grid" x1="46" x2="506" y1="36.8" y2="36.8"/><text class="tick" x="40" y="40.8" text-anchor="end">24</text><line class="grid" x1="46" x2="506" y1="16.0" y2="16.0"/><text class="tick" x="40" y="20.0" text-anchor="end">26</text><rect class="b-blue" x="46.5" y="254.8" width="22.0" height="31.2"/><rect class="b-blue" x="69.5" y="254.8" width="22.0" height="31.2"/><rect class="b-blue" x="92.5" y="234.1" width="22.0" height="51.9"/><rect class="b-blue" x="115.5" y="234.1" width="22.0" height="51.9"/><rect class="b-blue" x="138.5" y="234.1" width="22.0" height="51.9"/><rect class="b-blue" x="161.5" y="202.9" width="22.0" height="83.1"/><rect class="b-blue" x="184.5" y="161.4" width="22.0" height="124.6"/><rect class="b-blue" x="207.5" y="88.7" width="22.0" height="197.3"/><rect class="b-blue" x="230.5" y="192.5" width="22.0" height="93.5"/><rect class="b-blue" x="253.5" y="88.7" width="22.0" height="197.3"/><rect class="b-blue" x="276.5" y="130.2" width="22.0" height="155.8"/><rect class="b-blue" x="299.5" y="151.0" width="22.0" height="135.0"/><rect class="b-blue" x="322.5" y="140.6" width="22.0" height="145.4"/><rect class="b-blue" x="345.5" y="16.0" width="22.0" height="270.0"/><rect class="b-blue" x="368.5" y="182.2" width="22.0" height="103.8"/><rect class="b-blue" x="391.5" y="192.5" width="22.0" height="93.5"/><rect class="b-blue" x="414.5" y="161.4" width="22.0" height="124.6"/><rect class="b-blue" x="437.5" y="223.7" width="22.0" height="62.3"/><rect class="b-blue" x="460.5" y="275.6" width="22.0" height="10.4"/><rect class="b-blue" x="483.5" y="223.7" width="22.0" height="62.3"/><text class="tick" x="112.2" y="302" text-anchor="middle">50</text><text class="tick" x="220.7" y="302" text-anchor="middle">60</text><text class="tick" x="329.2" y="302" text-anchor="middle">70</text><text class="tick" x="437.7" y="302" text-anchor="middle">80</text><line class="mean" x1="291.9" x2="291.9" y1="16" y2="286"/><text class="tick" x="297.9" y="28">mean 66.6</text><text class="axis" x="276" y="324" text-anchor="middle">Marks</text><text class="axis" transform="translate(12 151) rotate(-90)" text-anchor="middle">Students</text></svg></div><figcaption>Figure 1. Distribution of marks, with the mean marked.</figcaption></figure>
+      <figure><div class="chart"><svg viewBox="0 0 520 330" role="img" aria-label="Study hours against marks"><line class="grid" x1="46" x2="506" y1="286.0" y2="286.0"/><text class="tick" x="40" y="290.0" text-anchor="end">40</text><line class="grid" x1="46" x2="506" y1="232.0" y2="232.0"/><text class="tick" x="40" y="236.0" text-anchor="end">50</text><line class="grid" x1="46" x2="506" y1="178.0" y2="178.0"/><text class="tick" x="40" y="182.0" text-anchor="end">60</text><line class="grid" x1="46" x2="506" y1="124.0" y2="124.0"/><text class="tick" x="40" y="128.0" text-anchor="end">70</text><line class="grid" x1="46" x2="506" y1="70.0" y2="70.0"/><text class="tick" x="40" y="74.0" text-anchor="end">80</text><line class="grid" x1="46" x2="506" y1="16.0" y2="16.0"/><text class="tick" x="40" y="20.0" text-anchor="end">90</text><text class="tick" x="46.0" y="302" text-anchor="middle">0</text><text class="tick" x="111.7" y="302" text-anchor="middle">1</text><text class="tick" x="177.4" y="302" text-anchor="middle">2</text><text class="tick" x="243.1" y="302" text-anchor="middle">3</text><text class="tick" x="308.9" y="302" text-anchor="middle">4</text><text class="tick" x="374.6" y="302" text-anchor="middle">5</text><text class="tick" x="440.3" y="302" text-anchor="middle">6</text><text class="tick" x="506.0" y="302" text-anchor="middle">7</text><circle class="dot" cx="210.3" cy="159.1" r="3.2"/><circle class="dot" cx="282.6" cy="110.5" r="3.2"/><circle class="dot" cx="144.6" cy="175.8" r="3.2"/><circle class="dot" cx="328.6" cy="92.1" r="3.2"/><circle class="dot" cx="295.7" cy="149.9" r="3.2"/><circle class="dot" cx="289.1" cy="106.7" r="3.2"/><circle class="dot" cx="190.6" cy="159.1" r="3.2"/><circle class="dot" cx="308.9" cy="88.4" r="3.2"/><circle class="dot" cx="269.4" cy="101.3" r="3.2"/><circle class="dot" cx="236.6" cy="165.6" r="3.2"/><circle class="dot" cx="249.7" cy="179.6" r="3.2"/><circle class="dot" cx="295.7" cy="164.0" r="3.2"/><circle class="dot" cx="295.7" cy="115.4" r="3.2"/><circle class="dot" cx="170.9" cy="106.2" r="3.2"/><circle class="dot" cx="256.3" cy="175.3" r="3.2"/><circle class="dot" cx="216.9" cy="161.8" r="3.2"/><circle class="dot" cx="177.4" cy="237.4" r="3.2"/><circle class="dot" cx="230.0" cy="150.5" r="3.2"/><circle class="dot" cx="131.4" cy="161.8" r="3.2"/><circle class="dot" cx="98.6" cy="202.8" r="3.2"/><circle class="dot" cx="118.3" cy="226.1" r="3.2"/><circle class="dot" cx="236.6" cy="127.2" r="3.2"/><circle class="dot" cx="197.1" cy="122.9" r="3.2"/><circle class="dot" cx="197.1" cy="114.8" r="3.2"/><circle class="dot" cx="302.3" cy="76.5" r="3.2"/><circle class="dot" cx="328.6" cy="84.6" r="3.2"/><circle class="dot" cx="157.7" cy="161.3" r="3.2"/><circle class="dot" cx="269.4" cy="95.4" r="3.2"/><circle class="dot" cx="105.1" cy="218.0" r="3.2"/><circle class="dot" cx="236.6" cy="142.9" r="3.2"/><circle class="dot" cx="170.9" cy="128.3" r="3.2"/><circle class="dot" cx="420.6" cy="36.0" r="3.2"/><circle class="dot" cx="387.7" cy="47.3" r="3.2"/><circle class="dot" cx="400.9" cy="59.2" r="3.2"/><circle class="dot" cx="335.1" cy="139.7" r="3.2"/><circle class="dot" cx="197.1" cy="176.9" r="3.2"/><circle class="dot" cx="262.9" cy="107.8" r="3.2"/><circle class="dot" cx="269.4" cy="104.0" r="3.2"/><circle class="dot" cx="302.3" cy="149.4" r="3.2"/><circle class="dot" cx="427.1" cy="113.2" r="3.2"/><circle class="dot" cx="420.6" cy="68.4" r="3.2"/><circle class="dot" cx="276.0" cy="107.3" r="3.2"/><circle class="dot" cx="243.1" cy="176.9" r="3.2"/><circle class="dot" cx="243.1" cy="164.0" r="3.2"/><circle class="dot" cx="203.7" cy="138.6" r="3.2"/><circle class="dot" cx="328.6" cy="108.3" r="3.2"/><circle class="dot" cx="354.9" cy="116.4" r="3.2"/><circle class="dot" cx="111.7" cy="229.3" r="3.2"/><circle class="dot" cx="368.0" cy="39.2" r="3.2"/><circle class="dot" cx="433.7" cy="96.5" r="3.2"/><circle class="dot" cx="387.7" cy="79.7" r="3.2"/><circle class="dot" cx="282.6" cy="155.3" r="3.2"/><circle class="dot" cx="190.6" cy="180.7" r="3.2"/><circle class="dot" cx="295.7" cy="76.5" r="3.2"/><circle class="dot" cx="230.0" cy="183.9" r="3.2"/><circle class="dot" cx="164.3" cy="182.9" r="3.2"/><circle class="dot" cx="282.6" cy="144.0" r="3.2"/><circle class="dot" cx="400.9" cy="79.2" r="3.2"/><circle class="dot" cx="361.4" cy="75.9" r="3.2"/><circle class="dot" cx="118.3" cy="233.1" r="3.2"/><circle class="dot" cx="197.1" cy="101.9" r="3.2"/><circle class="dot" cx="72.3" cy="212.0" r="3.2"/><circle class="dot" cx="72.3" cy="197.4" r="3.2"/><circle class="dot" cx="210.3" cy="194.7" r="3.2"/><circle class="dot" cx="197.1" cy="165.0" r="3.2"/><circle class="dot" cx="262.9" cy="72.7" r="3.2"/><circle class="dot" cx="72.3" cy="225.5" r="3.2"/><circle class="dot" cx="170.9" cy="176.9" r="3.2"/><circle class="dot" cx="190.6" cy="164.5" r="3.2"/><circle class="dot" cx="256.3" cy="186.1" r="3.2"/><circle class="dot" cx="197.1" cy="154.2" r="3.2"/><circle class="dot" cx="308.9" cy="128.9" r="3.2"/><circle class="dot" cx="341.7" cy="91.6" r="3.2"/><circle class="dot" cx="243.1" cy="158.6" r="3.2"/><circle class="dot" cx="295.7" cy="106.7" r="3.2"/><circle class="dot" cx="236.6" cy="230.9" r="3.2"/><circle class="dot" cx="216.9" cy="113.2" r="3.2"/><circle class="dot" cx="269.4" cy="194.7" r="3.2"/><circle class="dot" cx="243.1" cy="114.8" r="3.2"/><circle class="dot" cx="308.9" cy="96.5" r="3.2"/><circle class="dot" cx="420.6" cy="88.4" r="3.2"/><circle class="dot" cx="210.3" cy="166.1" r="3.2"/><circle class="dot" cx="262.9" cy="114.3" r="3.2"/><circle class="dot" cx="177.4" cy="127.8" r="3.2"/><circle class="dot" cx="420.6" cy="118.1" r="3.2"/><circle class="dot" cx="243.1" cy="144.0" r="3.2"/><circle class="dot" cx="216.9" cy="177.5" r="3.2"/><circle class="dot" cx="236.6" cy="189.3" r="3.2"/><circle class="dot" cx="230.0" cy="122.4" r="3.2"/><circle class="dot" cx="236.6" cy="182.9" r="3.2"/><circle class="dot" cx="295.7" cy="143.4" r="3.2"/><circle class="dot" cx="78.9" cy="236.3" r="3.2"/><circle class="dot" cx="184.0" cy="244.4" r="3.2"/><circle class="dot" cx="131.4" cy="190.4" r="3.2"/><circle class="dot" cx="308.9" cy="146.1" r="3.2"/><circle class="dot" cx="341.7" cy="130.5" r="3.2"/><circle class="dot" cx="243.1" cy="158.0" r="3.2"/><circle class="dot" cx="453.4" cy="111.6" r="3.2"/><circle class="dot" cx="243.1" cy="154.2" r="3.2"/><circle class="dot" cx="203.7" cy="110.0" r="3.2"/><circle class="dot" cx="144.6" cy="193.7" r="3.2"/><circle class="dot" cx="170.9" cy="137.5" r="3.2"/><circle class="dot" cx="361.4" cy="124.0" r="3.2"/><circle class="dot" cx="328.6" cy="133.7" r="3.2"/><circle class="dot" cx="322.0" cy="111.0" r="3.2"/><circle class="dot" cx="361.4" cy="79.2" r="3.2"/><circle class="dot" cx="236.6" cy="141.3" r="3.2"/><circle class="dot" cx="151.1" cy="213.6" r="3.2"/><circle class="dot" cx="223.4" cy="54.3" r="3.2"/><circle class="dot" cx="236.6" cy="159.1" r="3.2"/><circle class="dot" cx="184.0" cy="154.8" r="3.2"/><circle class="dot" cx="164.3" cy="131.0" r="3.2"/><circle class="dot" cx="190.6" cy="190.4" r="3.2"/><circle class="dot" cx="203.7" cy="140.7" r="3.2"/><circle class="dot" cx="256.3" cy="189.3" r="3.2"/><circle class="dot" cx="282.6" cy="135.9" r="3.2"/><circle class="dot" cx="124.9" cy="264.9" r="3.2"/><circle class="dot" cx="289.1" cy="96.5" r="3.2"/><circle class="dot" cx="348.3" cy="119.7" r="3.2"/><circle class="dot" cx="230.0" cy="186.1" r="3.2"/><circle class="dot" cx="249.7" cy="94.8" r="3.2"/><circle class="dot" cx="210.3" cy="152.1" r="3.2"/><circle class="dot" cx="223.4" cy="134.3" r="3.2"/><circle class="dot" cx="262.9" cy="113.7" r="3.2"/><circle class="dot" cx="256.3" cy="75.4" r="3.2"/><circle class="dot" cx="302.3" cy="113.2" r="3.2"/><circle class="dot" cx="184.0" cy="180.7" r="3.2"/><circle class="dot" cx="315.4" cy="75.9" r="3.2"/><circle class="dot" cx="190.6" cy="116.4" r="3.2"/><circle class="dot" cx="289.1" cy="105.6" r="3.2"/><circle class="dot" cx="105.1" cy="231.5" r="3.2"/><circle class="dot" cx="216.9" cy="182.9" r="3.2"/><circle class="dot" cx="308.9" cy="169.4" r="3.2"/><circle class="dot" cx="92.0" cy="248.2" r="3.2"/><circle class="dot" cx="138.0" cy="200.1" r="3.2"/><circle class="dot" cx="322.0" cy="120.8" r="3.2"/><circle class="dot" cx="328.6" cy="95.4" r="3.2"/><circle class="dot" cx="302.3" cy="78.1" r="3.2"/><circle class="dot" cx="151.1" cy="140.2" r="3.2"/><circle class="dot" cx="46.0" cy="257.9" r="3.2"/><circle class="dot" cx="295.7" cy="71.6" r="3.2"/><circle class="dot" cx="190.6" cy="226.6" r="3.2"/><circle class="dot" cx="276.0" cy="151.0" r="3.2"/><circle class="dot" cx="282.6" cy="151.0" r="3.2"/><circle class="dot" cx="170.9" cy="175.3" r="3.2"/><circle class="dot" cx="308.9" cy="124.0" r="3.2"/><circle class="dot" cx="381.1" cy="41.9" r="3.2"/><circle class="dot" cx="262.9" cy="137.5" r="3.2"/><circle class="dot" cx="92.0" cy="212.6" r="3.2"/><circle class="dot" cx="322.0" cy="139.1" r="3.2"/><circle class="dot" cx="111.7" cy="179.6" r="3.2"/><circle class="dot" cx="322.0" cy="105.1" r="3.2"/><circle class="dot" cx="348.3" cy="120.8" r="3.2"/><circle class="dot" cx="249.7" cy="193.1" r="3.2"/><circle class="dot" cx="348.3" cy="60.8" r="3.2"/><circle class="dot" cx="289.1" cy="154.8" r="3.2"/><circle class="dot" cx="144.6" cy="203.9" r="3.2"/><circle class="dot" cx="144.6" cy="218.0" r="3.2"/><circle class="dot" cx="282.6" cy="140.7" r="3.2"/><circle class="dot" cx="216.9" cy="206.1" r="3.2"/><circle class="dot" cx="407.4" cy="105.6" r="3.2"/><circle class="dot" cx="361.4" cy="79.7" r="3.2"/><circle class="dot" cx="243.1" cy="181.2" r="3.2"/><circle class="dot" cx="210.3" cy="194.2" r="3.2"/><circle class="dot" cx="453.4" cy="45.7" r="3.2"/><circle class="dot" cx="157.7" cy="178.5" r="3.2"/><circle class="dot" cx="243.1" cy="151.0" r="3.2"/><circle class="dot" cx="315.4" cy="81.9" r="3.2"/><circle class="dot" cx="105.1" cy="264.9" r="3.2"/><circle class="dot" cx="262.9" cy="68.9" r="3.2"/><circle class="dot" cx="203.7" cy="181.8" r="3.2"/><circle class="dot" cx="243.1" cy="204.5" r="3.2"/><circle class="dot" cx="197.1" cy="118.1" r="3.2"/><circle class="dot" cx="433.7" cy="64.1" r="3.2"/><circle class="dot" cx="256.3" cy="110.5" r="3.2"/><circle class="dot" cx="151.1" cy="188.3" r="3.2"/><circle class="dot" cx="302.3" cy="112.7" r="3.2"/><circle class="dot" cx="276.0" cy="159.6" r="3.2"/><circle class="dot" cx="276.0" cy="122.4" r="3.2"/><circle class="dot" cx="400.9" cy="65.7" r="3.2"/><circle class="dot" cx="394.3" cy="91.1" r="3.2"/><circle class="dot" cx="210.3" cy="151.0" r="3.2"/><circle class="dot" cx="151.1" cy="205.0" r="3.2"/><circle class="dot" cx="203.7" cy="166.1" r="3.2"/><circle class="dot" cx="289.1" cy="86.7" r="3.2"/><circle class="dot" cx="322.0" cy="100.2" r="3.2"/><circle class="dot" cx="243.1" cy="115.9" r="3.2"/><circle class="dot" cx="216.9" cy="198.5" r="3.2"/><circle class="dot" cx="85.4" cy="242.3" r="3.2"/><circle class="dot" cx="315.4" cy="110.5" r="3.2"/><circle class="dot" cx="335.1" cy="46.2" r="3.2"/><circle class="dot" cx="78.9" cy="228.2" r="3.2"/><circle class="dot" cx="177.4" cy="90.5" r="3.2"/><circle class="dot" cx="354.9" cy="127.8" r="3.2"/><circle class="dot" cx="295.7" cy="132.1" r="3.2"/><circle class="dot" cx="216.9" cy="164.0" r="3.2"/><circle class="dot" cx="144.6" cy="175.3" r="3.2"/><circle class="dot" cx="230.0" cy="120.2" r="3.2"/><circle class="dot" cx="262.9" cy="141.8" r="3.2"/><circle class="dot" cx="190.6" cy="108.3" r="3.2"/><line class="trend" x1="46.0" y1="231.9" x2="453.4" y2="52.5"/><text class="axis" x="276" y="324" text-anchor="middle">Study hours per day</text><text class="axis" transform="translate(12 151) rotate(-90)" text-anchor="middle">Marks</text></svg></div><figcaption>Figure 2. Study hours against marks, with a trend line.</figcaption></figure>
+      <figure><div class="chart"><svg viewBox="0 0 520 330" role="img" aria-label="Mean marks by sleep band"><line class="grid" x1="46" x2="506" y1="286.0" y2="286.0"/><text class="tick" x="40" y="290.0" text-anchor="end">0</text><line class="grid" x1="46" x2="506" y1="232.0" y2="232.0"/><text class="tick" x="40" y="236.0" text-anchor="end">20</text><line class="grid" x1="46" x2="506" y1="178.0" y2="178.0"/><text class="tick" x="40" y="182.0" text-anchor="end">40</text><line class="grid" x1="46" x2="506" y1="124.0" y2="124.0"/><text class="tick" x="40" y="128.0" text-anchor="end">60</text><line class="grid" x1="46" x2="506" y1="70.0" y2="70.0"/><text class="tick" x="40" y="74.0" text-anchor="end">80</text><line class="grid" x1="46" x2="506" y1="16.0" y2="16.0"/><text class="tick" x="40" y="20.0" text-anchor="end">100</text><rect class="bar0" x="73.6" y="114.3" width="98.1" height="171.7"/><text class="val" x="122.7" y="108.3" text-anchor="middle">63.6</text><text class="tick" x="122.7" y="302" text-anchor="middle">Under 6 h</text><rect class="bar1" x="226.9" y="108.1" width="98.1" height="177.9"/><text class="val" x="276.0" y="102.1" text-anchor="middle">65.9</text><text class="tick" x="276.0" y="302" text-anchor="middle">6-7 h</text><rect class="bar2" x="380.3" y="96.2" width="98.1" height="189.8"/><text class="val" x="429.3" y="90.2" text-anchor="middle">70.3</text><text class="tick" x="429.3" y="302" text-anchor="middle">Over 7 h</text><text class="axis" x="276" y="324" text-anchor="middle">Sleep per night</text><text class="axis" transform="translate(12 151) rotate(-90)" text-anchor="middle">Mean marks</text></svg></div><figcaption>Figure 3. Average marks by sleep band.</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="data">
+    <h2>Data</h2>
+    <p>The first 15 of 200 simulated students. <a href="students.csv" download>Download the full students.csv</a>.</p>
+    <div class="tbl"><table><thead><tr><th>ID</th><th>Study</th><th>Sleep</th><th>Attendance</th><th>Screen</th><th>Habit</th><th>Marks</th></tr></thead><tbody><tr><td>S100</td><td>2.5</td><td>4.7</td><td>77.6</td><td>6.9</td><td>45.6</td><td>63.5</td></tr><tr><td>S101</td><td>3.6</td><td>5.5</td><td>75.5</td><td>5.0</td><td>57.6</td><td>72.5</td></tr><tr><td>S102</td><td>1.5</td><td>6.0</td><td>69.4</td><td>5.7</td><td>46.3</td><td>60.4</td></tr><tr><td>S103</td><td>4.3</td><td>7.6</td><td>70.1</td><td>5.2</td><td>76.2</td><td>75.9</td></tr><tr><td>S104</td><td>3.8</td><td>8.3</td><td>76.7</td><td>5.7</td><td>78.1</td><td>65.2</td></tr><tr><td>S105</td><td>3.7</td><td>6.8</td><td>75.3</td><td>4.0</td><td>68.1</td><td>73.2</td></tr><tr><td>S106</td><td>2.2</td><td>6.9</td><td>73.0</td><td>4.2</td><td>58.4</td><td>63.5</td></tr><tr><td>S107</td><td>4.0</td><td>8.3</td><td>93.2</td><td>5.9</td><td>84.8</td><td>76.6</td></tr><tr><td>S108</td><td>3.4</td><td>5.6</td><td>75.9</td><td>5.9</td><td>57.9</td><td>74.2</td></tr><tr><td>S109</td><td>2.9</td><td>5.5</td><td>76.6</td><td>4.8</td><td>53.5</td><td>62.3</td></tr><tr><td>S110</td><td>3.1</td><td>6.2</td><td>68.7</td><td>6.4</td><td>57.6</td><td>59.7</td></tr><tr><td>S111</td><td>3.8</td><td>6.6</td><td>76.6</td><td>4.6</td><td>67.4</td><td>62.6</td></tr><tr><td>S112</td><td>3.8</td><td>8.5</td><td>68.3</td><td>2.1</td><td>75.9</td><td>71.6</td></tr><tr><td>S113</td><td>1.9</td><td>6.1</td><td>93.3</td><td>3.8</td><td>56.3</td><td>73.3</td></tr><tr><td>S114</td><td>3.2</td><td>7.9</td><td>72.6</td><td>2.7</td><td>72.0</td><td>60.5</td></tr></tbody></table></div>
+  </section>
+
+  <section id="limits">
+    <h2>Limitations and next step</h2>
+    <ul>
+      <li>The data is simulated, so the numbers say nothing about real students.</li>
+      <li>Nothing here proves cause. Even on real data, better students may simply sleep more.</li>
+      <li>The Habit Score weights are a judgement. Changing them changes the results.</li>
+      <li><strong>Next step:</strong> collect real, consented data with the same columns and run the same analysis.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p>Study Habits, Sleep and Marks · Academic Session 2026-27</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+:root {
+  --bg: #f3f6fb;
+  --card: #ffffff;
+  --ink: #14213d;
+  --mute: #5b6b85;
+  --line: #d9e0ec;
+  --accent: #0d9488;
+  --amber: #f59e0b;
+  --blue: #2563eb;
+  --orange: #f97316;
+  --red: #ef4444;
+  --green: #22c55e;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e1622;
+    --card: #16212f;
+    --ink: #e6edf8;
+    --mute: #9aabc4;
+    --line: #263447;
+    --accent: #2dd4bf;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.6 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+}
+
+.wrap { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+
+/* header and navigation */
+.top {
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.top .wrap { padding-top: 14px; padding-bottom: 10px; }
+h1 { font-size: 1.5rem; line-height: 1.2; margin: 0; }
+.lead { margin: 2px 0 8px; color: var(--mute); font-size: .95rem; }
+nav { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+nav a {
+  color: var(--ink);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: .92rem;
+  white-space: nowrap;
+}
+nav a:hover { background: var(--bg); box-shadow: inset 0 -3px 0 var(--accent); }
+a:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+
+/* text */
+section { padding: 28px 0 8px; }
+h2 { font-size: 1.4rem; margin: 0 0 10px; }
+h3 { font-size: 1.05rem; margin: 22px 0 6px; }
+p { margin: 0 0 12px; max-width: 70ch; }
+ul { padding-left: 22px; max-width: 70ch; }
+li { margin: 4px 0; }
+a { color: var(--accent); }
+.small { color: var(--mute); font-size: .9rem; }
+
+.notice {
+  margin-top: 24px;
+  padding: 14px 16px;
+  background: var(--card);
+  border-left: 5px solid var(--amber);
+  border-radius: 0 10px 10px 0;
+}
+
+.formula {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font: 1rem/1.5 Consolas, Menlo, monospace;
+  overflow-x: auto;
+}
+
+/* five stages */
+.stages { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 8px; }
+.stage { background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--accent); border-radius: 10px; padding: 12px 14px; }
+.stage h3 { margin: 0 0 4px; }
+.stage p { margin: 0; font-size: .92rem; color: var(--mute); }
+
+/* headline numbers */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 8px; }
+.stat { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; }
+.num { font-size: 1.8rem; font-weight: 700; color: var(--accent); line-height: 1.1; }
+.lab { color: var(--mute); font-size: .9rem; }
+
+/* tables */
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.tbl { overflow-x: auto; margin: 8px 0 12px; }
+.tbl.narrow { max-width: 360px; }
+table { border-collapse: collapse; width: 100%; background: var(--card); border: 1px solid var(--line); border-radius: 10px; font-size: .95rem; }
+th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { background: var(--bg); font-weight: 600; }
+tbody tr:last-child td { border-bottom: 0; }
+
+/* charts */
+.charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+figure { margin: 0; }
+.chart { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px; }
+figcaption { color: var(--mute); font-size: .88rem; margin-top: 6px; }
+svg { width: 100%; height: auto; display: block; }
+svg .grid { stroke: var(--line); stroke-width: 1; }
+svg .tick { fill: var(--mute); font-size: 11px; }
+svg .axis { fill: var(--ink); font-size: 12px; }
+svg .val { fill: var(--ink); font-size: 12px; font-weight: 600; }
+svg .b-blue { fill: var(--blue); }
+svg .dot { fill: var(--accent); opacity: .7; }
+svg .trend { stroke: var(--orange); stroke-width: 2.5; }
+svg .mean { stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 5 4; }
+svg .bar0 { fill: var(--red); }
+svg .bar1 { fill: var(--amber); }
+svg .bar2 { fill: var(--green); }
+
+footer { padding-top: 24px; padding-bottom: 40px; color: var(--mute); font-size: .9rem; }
+
+@media (max-width: 560px) {
+  h1 { font-size: 1.25rem; }
+  section { padding-top: 22px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
